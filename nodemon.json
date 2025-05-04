@@ -1,0 +1,3 @@
+{
+  "ignore": ["fariddev", "node_modules", "database", "logs"]
+}
