@@ -960,7 +960,7 @@ module.exports = farid = async (farid, m, msg, store, groupCache) => {
 			}
 			break
 			case 'donasi': case 'donate': {
-				m.reply('Donasi Dapat Melalui Url Dibawah Ini :\nhttps://saweria.co/farid')
+				m.reply('• Donasi Dapat Melalui Url Dibawah Ini :\nhttps://saweria.co/faridSuryadi')
 			}
 			break
 			
@@ -1245,7 +1245,7 @@ module.exports = farid = async (farid, m, msg, store, groupCache) => {
 				m.reply(result)
 			}
 			break
-			case 'req': case 'request': {
+			case 'req': case 'dev': {
 				if (!text) return m.reply('Mau Request apa ke Owner?')
 				await m.reply(`*Request Telah Terkirim Ke Owner*\n_Terima Kasih🙏_`)
 				await farid.sendFromOwner(owner, `Pesan Dari : @${m.sender.split('@')[0]}\nUntuk Owner\n\nRequest ${text}`, m, { contextInfo: { mentionedJid: [m.sender], isForwarded: true }})
@@ -3421,7 +3421,8 @@ ${setv} ${prefix}bratvid (text)
 ${setv} ${prefix}sticker (kirim/reply gambar)  
 ${setv} ${prefix}translate  
 ${setv} ${prefix}shorturl (url)
-${setv} ${prefix}cuaca (nama kota)    
+${setv} ${prefix}cuaca (nama kota)   
+${setv} ${prefix}smeme textatas|textbawah 
 
 🤖 *AI*
 ${setv} ${prefix}ai (query)  
@@ -3543,7 +3544,9 @@ ${setv} ${prefix}*bratvid (text)* - membuat video pendek berbasis AI dari teks p
 ${setv} ${prefix}*sticker (kirim/reply gambar)* - membuat stiker dari gambar yang dikirim atau direply.
 ${setv} ${prefix}*translate* - menerjemahkan pesan yang direply ke bahasa lain.
 ${setv} ${prefix}*shorturl (url)* - memendekkan URL agar lebih ringkas.
-${setv} ${prefix}*cuaca (nama kota)* - menampilkan informasi cuaca berdasarkan nama kota.`)
+${setv} ${prefix}*cuaca (nama kota)* - menampilkan informasi cuaca berdasarkan nama kota.
+${setv} ${prefix}*smeme* textatas|textbawah - memberikan text pada stiker.
+`)
 			}
 			break
 			case 'aimenu': {
