@@ -2108,26 +2108,22 @@ module.exports = farid = async (farid, m, msg, store, groupCache) => {
 			break
 			
 			// Ai Menu
-			case 'ai': {
-				if (!text) return m.reply(`Example: ${prefix + command} query`)
-				try {
-					let hasil = await yanzGpt([{ role: 'system', content: '' }, { role: 'user', content: text }])
-					m.reply(hasil.choices[0].message.content)
-				} catch (e) {
-					try {
-						let hasil = await youSearch(text)
-						m.reply(hasil)
-					} catch (e) {
-						try {
-							let hasil = await bk9Ai(text)
-							m.reply(hasil.BK9)
-						} catch (e) {
-							m.reply(pickRandom(['Fitur Ai sedang bermasalah!','Tidak dapat terhubung ke ai!','Sistem Ai sedang sibuk sekarang!','Fitur sedang tidak dapat digunakan!']))
-						}
-					}
-				}
-			}
-			break
+		*[Meta-Ai]*
+
+case 'ai': {
+  if (!text) return m.reply('Contoh : ai siapa itu madara uchiha')
+  try {
+    let { data } = await axios.get('https://www.abella.icu/meta-ai?q=' + encodeURIComponent(text))
+    if (data?.data?.answer?.status && data?.data?.answer?.result) {
+      m.reply(data.data.answer.result)
+    } else {
+      m.reply('Gagal mendapatkan jawaban dari Meta AI.')
+    }
+  } catch (e) {
+    m.reply('Terjadi kesalahan saat memproses permintaan.')
+  }
+}
+break
 			case 'simi': {
 				if (!text) return m.reply(`Example: ${prefix + command} query`)
 				try {
