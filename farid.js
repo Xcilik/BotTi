@@ -2108,8 +2108,7 @@ module.exports = farid = async (farid, m, msg, store, groupCache) => {
 			break
 			
 			// Ai Menu
-		*[Meta-Ai]*
-
+		
 case 'ai': {
   if (!text) return m.reply('Contoh : ai siapa itu madara uchiha')
   try {
