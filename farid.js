@@ -604,7 +604,7 @@ module.exports = farid = async (farid, m, msg, store, groupCache) => {
 			break
 			
 			// Owner Menu
-			case 'shutdown': case 'off': {
+			case 'shutdown': case 'offbot': {
 				if (!isCreator) return m.reply(mess.owner)
 				m.reply(`*[BOT] Process Shutdown...*`).then(() => {
 					process.exit(0)
@@ -649,7 +649,7 @@ module.exports = farid = async (farid, m, msg, store, groupCache) => {
 			}
 			break
 			case 'join': {
-				if (!isCreator) return m.reply(mess.owner)
+				if (!isCreator) return 
 				if (!text) return m.reply('Masukkan Link Group!')
 				if (!isUrl(args[0]) && !args[0].includes('whatsapp.com')) return m.reply('Link Invalid!')
 				const result = args[0].split('https://chat.whatsapp.com/')[1]
@@ -1125,7 +1125,7 @@ module.exports = farid = async (farid, m, msg, store, groupCache) => {
 				}).catch((err) => m.reply('Gagal!'))
 			}
 			break
-			case 'group': case 'grup': case 'gc': {
+			case 'setgroup': case 'setgrup': case 'setgc': {
 				if (!m.isGroup) return m.reply(mess.group)
 				if (!m.isAdmin) return m.reply(mess.admin)
 				if (!m.isBotAdmin) return m.reply(mess.botAdmin)
@@ -1204,7 +1204,7 @@ module.exports = farid = async (farid, m, msg, store, groupCache) => {
 				let id = args && /\d+\-\d+@g.us/.test(args[0]) ? args[0] : m.chat
 				if (!store.presences || !store.presences[id]) return m.reply('Sedang Tidak ada yang online!')
 				let online = [...Object.keys(store.presences[id]), botNumber]
-				await m.reply('List Online:\n\n' + online.map(v => setv + ' @' + v.replace(/@.+/, '')).join`\n`, { mentions: online }).catch((e) => m.reply('Sedang Tidak Ada Yang Online..'))
+				await m.reply('• List Online:\n\n' + online.map(v => setv + ' @' + v.replace(/@.+/, '')).join`\n`, { mentions: online }).catch((e) => m.reply('Sedang Tidak Ada Yang Online..'))
 			}
 			break
 			
@@ -1276,7 +1276,7 @@ module.exports = farid = async (farid, m, msg, store, groupCache) => {
 				m.reply(`@${m.sender.split('@')[0]}`, { mentions: [m.sender] })
 			}
 			break
-			case 'runtime': case 'tes': case 'bot': {
+			case 'runtime': case 'tesbot': case 'setbot': {
 				let teks = text.split(' ')
 				switch(teks[0]) {
 					case 'mode':
