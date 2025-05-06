@@ -79,7 +79,6 @@ module.exports = farid = async (farid, m, msg, store, groupCache) => {
 		const quoted = m.quoted ? m.quoted : m
 		const command = isCreator ? body.replace(prefix, '').trim().split(/ +/).shift().toLowerCase() : isCmd ? body.replace(prefix, '').trim().split(/ +/).shift().toLowerCase() : ''
 
-	        const args = body.trim().split(/ +/).slice(1)
 		const text = q = args.join(' ')
 		const mime = (quoted.msg || quoted).mimetype || ''
 		const qmsg = (quoted.msg || quoted)
