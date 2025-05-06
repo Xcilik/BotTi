@@ -642,10 +642,8 @@ module.exports = farid = async (farid, m, msg, store, groupCache) => {
 				}
 			}
 			break
-			case 'delppbot': {
-				if (!isCreator) return m.reply(mess.owner)
-				await farid.removeProfilePicture(farid.user.id)
-				m.reply('Sukses')
+			case 'novi': {
+				m.reply('novi cantik')
 			}
 			break
 			case 'join': {
