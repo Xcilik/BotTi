@@ -643,7 +643,7 @@ module.exports = farid = async (farid, m, msg, store, groupCache) => {
 			}
 			break
 			case 'novi': {
-				m.reply('novi cantik')
+				m.reply('> novi cantik')
 			}
 			break
 			case 'join': {
