@@ -72,14 +72,14 @@ module.exports = farid = async (farid, m, msg, store, groupCache) => {
 		(m.type == 'protocolMessage') ? (m.message.protocolMessage?.editedMessage?.extendedTextMessage?.text || m.message.protocolMessage?.editedMessage?.conversation || m.message.protocolMessage?.editedMessage?.imageMessage?.caption || m.message.protocolMessage?.editedMessage?.videoMessage?.caption || '') : ''
 		const budy = (typeof m.text == 'string' ? m.text : '')
 		const isCreator = isOwner = [botNumber, ...owner].map(v => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').includes(m.sender)
-		const cases = [...fs.readFileSync('./farid.js', 'utf-8').matchAll(/case\s+['"]([^'"]+)['"]/g)].map(match => match[1]);
-        var prefix = prefa ? /^[Â°â€¢Ï€Ã·Ã—Â¶âˆ†Â£Â¢â‚¬Â¥Â®â„¢+âœ“_=|~!?@#$%^&.Â©^]/gi.test(body) ? body.match(/^[Â°â€¢Ï€Ã·Ã—Â¶âˆ†Â£Â¢â‚¬Â¥Â®â„¢+âœ“_=|~!?@#$%^&.Â©^]/gi)[0] : "" : prefa ?? global.prefix
-        const isCmd = body.startsWith(prefix)
-        const command = body.replace(prefix, '').trim().split(/ +/).shift().toLowerCase()
-        const args = body.trim().split(/ +/).slice(1)
+		const cases = [...fs.readFileSync('./naze.js', 'utf-8').matchAll(/case\s+['"]([^'"]+)['"]/g)].map(match => match[1]);
+		const prefix = isCreator ? (/^[°•π÷×¶∆£¢€¥®™+✓_=|~!?@()#,'"*+÷/\%^&.©^]/gi.test(body) ? body.match(/^[°•π÷×¶∆£¢€¥®™+✓_=|~!?@()#,'"*+÷/\%^&.©^]/gi)[0] : /[\uD800-\uDBFF][\uDC00-\uDFFF]/gi.test(body) ? body.match(/[\uD800-\uDBFF][\uDC00-\uDFFF]/gi)[0] : listprefix.find(a => body.startsWith(a)) || '') : db.set[botNumber].multiprefix ? (/^[°•π÷×¶∆£¢€¥®™+✓_=|~!?@()#,'"*+÷/\%^&.©^]/gi.test(body) ? body.match(/^[°•π÷×¶∆£¢€¥®™+✓_=|~!?@()#,'"*+÷/\%^&.©^]/gi)[0] : /[\uD800-\uDBFF][\uDC00-\uDFFF]/gi.test(body) ? body.match(/[\uD800-\uDBFF][\uDC00-\uDFFF]/gi)[0] : listprefix.find(a => body.startsWith(a)) || '¿') : listprefix.find(a => body.startsWith(a)) || '¿'
+		const isCmd = body.startsWith(prefix)
+		const args = body.trim().split(/ +/).slice(1)
+		const quoted = m.quoted ? m.quoted : m
+		const command = isCreator ? body.replace(prefix, '').trim().split(/ +/).shift().toLowerCase() : isCmd ? body.replace(prefix, '').trim().split(/ +/).shift().toLowerCase() : ''
 
-		const quoted = m.quoted ? m.quoted : m;
-
+	        const args = body.trim().split(/ +/).slice(1)
 		const text = q = args.join(' ')
 		const mime = (quoted.msg || quoted).mimetype || ''
 		const qmsg = (quoted.msg || quoted)
@@ -959,10 +959,10 @@ module.exports = farid = async (farid, m, msg, store, groupCache) => {
 				});
 			}
 			break
-			case 'donasi': case 'donate': {
-				m.reply('• Donasi Dapat Melalui Url Dibawah Ini :\nhttps://saweria.co/faridSuryadi')
-			}
-			break
+			// case 'donasi': case 'donate': {
+			// 	m.reply('• Donasi Dapat Melalui Url Dibawah Ini :\nhttps://saweria.co/faridSuryadi')
+			// }
+			// break
 			
 			// Group Menu
 			case 'add': {
@@ -1171,7 +1171,7 @@ module.exports = farid = async (farid, m, msg, store, groupCache) => {
 				}
 			}
 			break
-			case 'tagall': {
+			case 'tagall': case 'all':{
 				if (!m.isGroup) return m.reply(mess.group)
 				if (!m.isAdmin) return m.reply(mess.admin)
 				if (!m.isBotAdmin) return m.reply(mess.botAdmin)
@@ -1213,11 +1213,6 @@ module.exports = farid = async (farid, m, msg, store, groupCache) => {
 				await farid.sendContact(m.chat, owner, m);
 			}
 			break
-			case 'profile': case 'cek': {
-				const user = Object.keys(db.users)
-				const infoUser = db.users[m.sender]
-				await m.reply(`*👤Profile @${m.sender.split('@')[0]}* :\n🐋User Bot : ${user.includes(m.sender) ? 'True' : 'False'}\n🔥User : ${isVip ? 'VIP' : isPremium ? 'PREMIUM' : 'FREE'}${isPremium ? `\n⏳Expired : ${formatDate(prem.getPremiumExpired(m.sender, db.premium))}` : ''}\n🎫Limit : ${infoUser.limit}\n💰Uang : ${infoUser ? infoUser.uang.toLocaleString('id-ID') : '0'}`)
-			}
 			break
 			case 'leaderboard': {
 				const entries = Object.entries(db.users).sort((a, b) => b[1].uang - a[1].uang).slice(0, 10).map(entry => entry[0]);
@@ -1246,8 +1241,8 @@ module.exports = farid = async (farid, m, msg, store, groupCache) => {
 			}
 			break
 			case 'req': case 'dev': {
-				if (!text) return m.reply('Mau Request apa ke Owner?')
-				await m.reply(`*Request Telah Terkirim Ke Owner*\n_Terima Kasih🙏_`)
+				if (!text) return m.reply('Mau Request apa dek?')
+				await m.reply(`*Senf to Dev..*\n_Terima Kasih🙏_`)
 				await farid.sendFromOwner(owner, `Pesan Dari : @${m.sender.split('@')[0]}\nUntuk Owner\n\nRequest ${text}`, m, { contextInfo: { mentionedJid: [m.sender], isForwarded: true }})
 			}
 			break
@@ -1276,7 +1271,7 @@ module.exports = farid = async (farid, m, msg, store, groupCache) => {
 				m.reply(`@${m.sender.split('@')[0]}`, { mentions: [m.sender] })
 			}
 			break
-			case 'runtime': case 'tesbot': case 'setbot': {
+			case 'runtime': case 'tesbot': case 'bots': {
 				let teks = text.split(' ')
 				switch(teks[0]) {
 					case 'mode':
@@ -1326,7 +1321,7 @@ module.exports = farid = async (farid, m, msg, store, groupCache) => {
 				if (!teks[0] && !teks[1]) return m.reply(`*Bot Telah Online Selama*\n*${runtime(process.uptime())}*`)
 			}
 			break
-			case 'ping': case 'botstatus': case 'statusbot': {
+			case 'ping': {
 				const used = process.memoryUsage()
 				const cpus = os.cpus().map(cpu => {
 					cpu.total = Object.keys(cpu.times).reduce((last, type) => last + cpu.times[type], 0)
@@ -1384,8 +1379,8 @@ module.exports = farid = async (farid, m, msg, store, groupCache) => {
 				m.reply(`@${m.sender.split('@')[0]} Telah Afk${text ? ': ' + text : ''}`)
 			}
 			break
-			case 'readviewonce': case 'readviewone': case 'rvo': {
-				if (!m.quoted) return m.reply(`Reply view once message\nExample: ${prefix + command}`)
+			case 'readviewonce': case 'readviewone': case 'rvo': case 'ea':{
+				if (!m.quoted) return
 				try {
 					if (m.quoted.msg.viewOnce) {
 						delete m.quoted.chat
@@ -2109,20 +2104,20 @@ module.exports = farid = async (farid, m, msg, store, groupCache) => {
 			
 			// Ai Menu
 		
-case 'ai': {
-  if (!text) return m.reply('Contoh : ai siapa itu madara uchiha')
-  try {
-    let { data } = await axios.get('https://www.abella.icu/meta-ai?q=' + encodeURIComponent(text))
-    if (data?.data?.answer?.status && data?.data?.answer?.result) {
-      m.reply(data.data.answer.result)
-    } else {
-      m.reply('Gagal mendapatkan jawaban dari Meta AI.')
-    }
-  } catch (e) {
-    m.reply('Terjadi kesalahan saat memproses permintaan.')
-  }
-}
-break
+			case 'ai': {
+			  if (!text) return m.reply('Contoh : ai siapa itu madara uchiha')
+			  try {
+			    let { data } = await axios.get('https://www.abella.icu/meta-ai?q=' + encodeURIComponent(text))
+			    if (data?.data?.answer?.status && data?.data?.answer?.result) {
+			      m.reply(data.data.answer.result)
+			    } else {
+			      m.reply('Gagal mendapatkan jawaban dari Meta AI.')
+			    }
+			  } catch (e) {
+			    m.reply('Terjadi kesalahan saat memproses permintaan.')
+			  }
+			}
+			break
 			case 'simi': {
 				if (!text) return m.reply(`Example: ${prefix + command} query`)
 				try {
@@ -2181,8 +2176,8 @@ break
 				}
 			}
 			break
-			case 'play': case 'ytplay': case 'yts': case 'ytsearch': case 'youtubesearch': {
-				if (!text) return m.reply(`Example: ${prefix + command} dj komang`);
+			case 'play': {
+				if (!text) return m.reply(`Example: ${prefix + command} komang`);
 				m.reply(mess.wait);
 				try {
 					const res = await yts.search(text);
@@ -3360,7 +3355,6 @@ ${setv} ${prefix}addnote
 ${setv} ${prefix}delnote
 ${setv} ${prefix}getnote 
 ${setv} ${prefix}notes  
-${setv} ${prefix}donasi 
 ${setv} ${prefix}ping
 
 *👥 Grup*
@@ -3448,7 +3442,6 @@ ${setv} ${prefix}jadian
 🔍 *Stalker*
 ${setv} ${prefix}wastalk  
 ${setv} ${prefix}telestalk  
-${setv} ${prefix}igstalk  
 ${setv} ${prefix}tiktokstalk  
 ${setv} ${prefix}githubstalk `
 
@@ -3467,7 +3460,6 @@ ${setv} ${prefix}*addnote (name)* - menambahkan catatan pribadi yang bisa disimp
 ${setv} ${prefix}*delnote (name)* - menghapus catatan tertentu yang telah kamu buat sebelumnya.
 ${setv} ${prefix}*getnote (name)* - menampilkan isi dari catatan yang sudah disimpan.
 ${setv} ${prefix}*notes* - menampilkan daftar semua catatan yang telah kamu buat.
-${setv} ${prefix}*donasi* - menampilkan informasi tentang cara mendukung/mendonasi ke developer.
 ${setv} ${prefix}*ping* - mengecek respon atau kecepatan bot (latency).`)
 			}
 			break
@@ -3561,7 +3553,6 @@ ${setv} ${prefix}*chatai* - mengakses fitur percakapan dengan chatbot berbasis A
 
 ${setv} ${prefix}*wastalk* - melihat detail akun WhatsApp.
 ${setv} ${prefix}*telestalk* - melihat detail akun Telegram.
-${setv} ${prefix}*igstalk* - melihat detail akun Instagram.
 ${setv} ${prefix}*tiktokstalk* - melihat detail akun TikTok.
 ${setv} ${prefix}*githubstalk* - melihat detail akun GitHub.`)
 			}
