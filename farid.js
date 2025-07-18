@@ -1007,10 +1007,11 @@ module.exports = farid = async (farid, m, msg, store, groupCache) => {
 				} else m.reply(`Contoh: ${prefix + command} 62xxx`)
 			}
 			break
+
 case 'promote': {
 	if (!m.isGroup) return m.reply(mess.group)
-	if (!(m.isAdmin || m.isCreator)) return m.reply(mess.admin)
 	if (!m.isBotAdmin) return m.reply(mess.botAdmin)
+	if (!(m.isAdmin || m.isCreator)) return m.reply(mess.admin)
 
 	if (text || m.quoted) {
 		const numbersOnly = text ? text.replace(/\D/g, '') + '@s.whatsapp.net' : m.quoted?.sender
@@ -1019,8 +1020,7 @@ case 'promote': {
 		m.reply(`Contoh: ${prefix + command} 62xxx`)
 	}
 	
-}
-				
+}				
 			break
 			case 'demote': {
 				if (!m.isGroup) return m.reply(mess.group)
