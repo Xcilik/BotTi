@@ -20,7 +20,7 @@ const rl = readline.createInterface({ input: process.stdin, output: process.stdo
 const question = (text) => new Promise((resolve) => rl.question(text, resolve))
 let app = express();
 let server = createServer(app);
-let PORT = process.env.PORT || process.env.SERVER_PORT || 3000;
+let PORT = process.env.PORT || process.env.SERVER_PORT || 3080;
 let pairingStarted = false;
 
 global.fetchApi = async (path = '/', query = {}, options) => {
