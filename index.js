@@ -180,9 +180,6 @@ async function startFaridBot() {
 			} else if (reason === DisconnectReason.timedOut) {
 				console.log('Connection Timed Out, Attempting to Reconnect...');
 				startFaridBot()
-			} else if (reason === DisconnectReason.badSession) {
-				console.log('Delete Session and Scan again...');
-				startFaridBot()
 			} else if (reason === DisconnectReason.connectionReplaced) {
 				console.log('Close current Session first...');
 			} else if (reason === DisconnectReason.loggedOut) {
