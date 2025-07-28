@@ -6,7 +6,6 @@ const chalk = require('chalk');
 const { createServer } = require('http');
 const { Boom } = require('@hapi/boom');
 const NodeCache = require('node-cache');
-const { toBuffer } = require('qrcode');
 const { exec } = require('child_process');
 const {
     default: WAConnection,
@@ -28,13 +27,6 @@ const groupCache = new NodeCache({ stdTTL: 5 * 60, useClones: false });
 const app = express();
 const server = createServer(app);
 const PORT = process.env.PORT || 3000;
-
-let lastQR = null;
-app.get('/qr', async (req, res) => {
-	if (!lastQR) return res.send('QR belum tersedia!');
-	res.setHeader('Content-Type', 'image/png');
-	res.end(await toBuffer(lastQR));
-});
 
 app.get('/', (req, res) => {
 	if (process.send) {
@@ -94,7 +86,7 @@ async function startFaridBot() {
 		msgRetryCounterCache,
 		retryRequestDelayMs: 10,
 		connectTimeoutMs: 60000,
-		printQRInTerminal: true,
+		printQRInTerminal: true, // ✅ langsung tampilkan QR di terminal
 		browser: Browsers.ubuntu('Chrome'),
 		generateHighQualityLinkPreview: true,
 		cachedGroupMetadata: async (jid) => groupCache.get(jid),
@@ -111,20 +103,15 @@ async function startFaridBot() {
 
 	farid.ev.on('connection.update', async (update) => {
 	    const { connection, lastDisconnect, qr } = update;
-	
-	    if (qr) {
-	        lastQR = qr;
-	        console.log(chalk.green('📲 QR tersedia. Scan dari terminal atau buka /qr di browser'));
-	    }
-	
+
 	    if (connection === 'open') {
 	        console.log('✅ Terhubung sebagai:', JSON.stringify(farid.user, null, 2));
 	    }
-	
+
 	    if (connection === 'close') {
 	        const reason = new Boom(lastDisconnect?.error)?.output.statusCode;
 	        console.log(chalk.red(`❌ Koneksi terputus. Reason: ${reason}`));
-	
+
 	        if (reason === DisconnectReason.badSession || reason === 405) {
 	            console.log('🧹 Session tidak valid. Menghapus session dan keluar...');
 	            exec('rm -rf fariddev/', () => {
@@ -145,7 +132,6 @@ async function startFaridBot() {
 	        }
 	    }
 	});
-
 
 	farid.ev.on('messages.upsert', (msg) => MessagesUpsert(farid, msg, store, groupCache));
 	farid.ev.on('groups.update', (update) => GroupCacheUpdate(farid, update, store, groupCache));
