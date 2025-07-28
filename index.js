@@ -110,31 +110,42 @@ async function startFaridBot() {
 	await Solving(farid, store);
 
 	farid.ev.on('connection.update', async (update) => {
-		const { connection, lastDisconnect, qr } = update;
-
-		if (qr) {
-			lastQR = qr;
-			console.log(chalk.green('📲 QR tersedia. Scan di terminal atau buka /qr'));
-		}
-
-		if (connection === 'open') {
-			console.log('✅ Terhubung sebagai:', JSON.stringify(farid.user, null, 2));
-		}
-
-		if (connection === 'close') {
-			const reason = new Boom(lastDisconnect?.error)?.output.statusCode;
-			console.log(chalk.red(`❌ Koneksi terputus. Reason: ${reason}`));
-
-			if ([DisconnectReason.connectionLost, DisconnectReason.restartRequired, DisconnectReason.connectionClosed, DisconnectReason.timedOut, DisconnectReason.badSession].includes(reason)) {
-				console.log('🔁 Menghubungkan ulang...');
-				startFaridBot();
-			} else {
-				console.log('❌ Tidak bisa reconnect otomatis. Hapus session dan scan ulang.');
-				exec('rm -rf fariddev/*');
-				process.exit(1);
-			}
-		}
+	    const { connection, lastDisconnect, qr } = update;
+	
+	    if (qr) {
+	        lastQR = qr;
+	        console.log(chalk.green('📲 QR tersedia. Scan dari terminal atau buka /qr di browser'));
+	    }
+	
+	    if (connection === 'open') {
+	        console.log('✅ Terhubung sebagai:', JSON.stringify(farid.user, null, 2));
+	    }
+	
+	    if (connection === 'close') {
+	        const reason = new Boom(lastDisconnect?.error)?.output.statusCode;
+	        console.log(chalk.red(`❌ Koneksi terputus. Reason: ${reason}`));
+	
+	        if (reason === DisconnectReason.badSession || reason === 405) {
+	            console.log('🧹 Session tidak valid. Menghapus session dan keluar...');
+	            exec('rm -rf fariddev/', () => {
+	                console.log('✅ Jalankan ulang dan scan QR baru.');
+	                process.exit(0);
+	            });
+	        } else if ([
+	            DisconnectReason.connectionLost,
+	            DisconnectReason.connectionClosed,
+	            DisconnectReason.restartRequired,
+	            DisconnectReason.timedOut
+	        ].includes(reason)) {
+	            console.log('🔁 Koneksi terputus. Mencoba menghubungkan ulang...');
+	            startFaridBot();
+	        } else {
+	            console.log(`❌ Disconnect tidak diketahui. Alasan: ${reason}`);
+	            process.exit(1);
+	        }
+	    }
 	});
+
 
 	farid.ev.on('messages.upsert', (msg) => MessagesUpsert(farid, msg, store, groupCache));
 	farid.ev.on('groups.update', (update) => GroupCacheUpdate(farid, update, store, groupCache));
