@@ -10,7 +10,7 @@ global.botname = 'Farid Bot'
 global.prefa = ['','!','.','#','&']
 global.listv = ['•','●','■','✿','▲','➩','➢','➣','➤','✦','✧','△','❀','○','□','♤','♡','◇','♧','々','〆']
 global.tempatDB = 'database.json' // Taruh url mongodb di sini jika menggunakan mongodb. Format : 'mongodb+srv://...'
-global.pairing_code = true
+global.pairing_code = false
 global.number_bot = '' // Kalo pake panel bisa masukin nomer di sini, jika belum ambil session. Format : '628xx'
 global.ImgTi = fs.readFileSync('./src/media/ti.jpg')
 
