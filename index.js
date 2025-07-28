@@ -116,7 +116,7 @@ async function startFaridBot() {
 		msgRetryCounterCache,
 		retryRequestDelayMs: 10,
 		connectTimeoutMs: 60000,
-		printQRInTerminal: !pairingCode,
+		printQRInTerminal: true,
 		defaultQueryTimeoutMs: undefined,
 		browser: Browsers.ubuntu('Chrome'),
 		generateHighQualityLinkPreview: true,
