@@ -15,7 +15,7 @@ const { default: WAConnection, useMultiFileAuthState, Browsers, DisconnectReason
 const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
 const app = express();
 const server = createServer(app);
-const PORT = process.env.PORT || process.env.SERVER_PORT || 3080;
+const PORT = process.env.PORT || process.env.SERVER_PORT || 3000;
 const pairingCode = false; // ⛔ disable pairing, force QR terminal
 
 global.fetchApi = async (path = '/', query = {}, options) => {
