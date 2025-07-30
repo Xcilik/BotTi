@@ -33,7 +33,7 @@ const translate = require('translate-google-api');
 const { Akinator, AkinatorAnswer } = require('aki-api');
 const PhoneNum = require('awesome-phonenumber');
 const { exec, spawn, execSync } = require('child_process');
-const { BufferJSON, WA_DEFAULT_EPHEMERAL, generateWAMessageFromContent, proto, getBinaryNodeChildren, generateWAMessageContent, generateWAMessage, prepareWAMessageMedia, areJidsSameUser, getContentType } = require('baileys');
+const { BufferJSON, WA_DEFAULT_EPHEMERAL, generateWAMessageFromContent, proto, getBinaryNodeChildren, generateWAMessageContent, generateWAMessage, prepareWAMessageMedia, areJidsSameUser, getContentType } = require('@whiskeysockets/baileys');
 
 const menfesTimeouts = new Map();
 const prem = require('./src/premium');
